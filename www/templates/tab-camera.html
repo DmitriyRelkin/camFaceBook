@@ -1,0 +1,11 @@
+<ion-view view-title="Camera">
+  <ion-content class="padding">
+    <img class="full-image" ng-show="imgURI !== undefined" ng-src="{{imgURI}}">
+    <button class="button button-block button-assertive" ng-click="takePhoto()">
+    Take Photo
+    </button>
+    <button class="button button-block button-assertive" ng-click="choosePhoto()">
+    Choose Photo
+    </button>
+  </ion-content>
+</ion-view>

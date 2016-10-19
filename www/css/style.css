@@ -1,0 +1,12 @@
+.social-btn {
+  width: 76%!important;
+  margin: 0 auto;
+}
+.ion-social-facebook-outline {
+
+}
+.ion-social-facebook-outline:before {
+  background: blue!important;
+  padding: 12px 15px!important;
+  font-size: 32px;
+}
