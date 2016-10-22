@@ -1,23 +1,23 @@
-<ion-view title="Profile" ng-init="init()">
-    <ion-content>
-        <div class="list card">
-          <div class="item item-avatar">
-            <img ng-src="{{vm.profileData.picture.data.url}}">
-            <h2>{{vm.profileData.name}}</h2>
-            <p>{{vm.profileData.id}}</p>
-          </div>
-          <a href="#" class="item item-icon-left">
-            <i class="icon ion-earth"></i>
-            {{vm.profileData.website}}
-          </a>
-          <a href="#" class="item item-icon-left">
-            <i class="icon ion-home"></i>
-            {{vm.profileData.location.name}}
-          </a>
-          <a href="#" class="item item-icon-left">
-            <i class="icon ion-heart"></i>
-            {{vm.profileData.relationship_status}}
-          </a>
+<ion-view title="Profile" ng-init="vm.init()">
+    <ion-content class="profile">
+      <div class="list card">
+        <div class="item item-avatar">
+          <img ng-src="{{vm.profileData.picture.data.url}}">
+          <h2>{{vm.profileData.name}}</h2>
+          <p>{{vm.profileData.id}}</p>
         </div>
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-earth"></i>
+          {{vm.profileData.website}}
+        </a>
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-home"></i>
+          {{vm.profileData.location.name}}
+        </a>
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-heart"></i>
+          {{vm.profileData.relationship_status}}
+        </a>
+      </div>
     </ion-content>
 </ion-view>

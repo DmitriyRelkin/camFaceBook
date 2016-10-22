@@ -59,9 +59,14 @@ function SocialCtrl($scope, $cordovaOauth, $location, $window) {
   var vm = this;
 
   vm.login = function() {
-    $cordovaOauth.facebook("321686544890415", ["email", "user_website", "user_location", "user_relationships"]).then(function(result) {
-      $window.localStorage.setItem.accessToken = result.access_token;
-      $location.path("/profile");
+    $cordovaOauth.facebook("321686544890415", [
+      "email",
+      "user_website",
+      "user_location",
+      "user_relationships"]).then(function(result) {
+      $window.localStorage.setItem('accessToken', JSON.stringify(result.access_token));
+      $location.path("/tab/profile");
+      console.log( JSON.parse($window.localStorage.getItem('accessToken')));
     }, function(error) {
       alert("There was a problem signing in!");
       console.log(error);
@@ -77,19 +82,22 @@ function ProfileCtrl($scope, $location, $window, $http) {
   var vm = this;
 
   vm.init = function() {
-    if($window.localStorage.hasOwnProperty("accessToken") === true) {
-      // https://graph.facebook.com/v2.2/me
-      $http.get("https://facebook.com/me", { params: { access_token: $window.localStorage.accessToken, fields: "id,name,gender,location,website,picture,relationship_status", format: "json" }}).then(function(result) {
-          vm.profileData = result.data;
-      }, function(error) {
-          alert("There was a problem getting your profile.  Check the logs for details.");
-          console.log(error);
-      });
-    } else {
-      alert("Not signed in");
-      // $location.path("/login");
-    }
-  };
+    return $http.get('https://graph.facebook.com/v2.2/me', {
+      params: {
+        access_token: JSON.parse($window.localStorage.getItem('accessToken')),
+        fields: 'id,name,gender,location,website,picture,email',
+        format: 'json'
+      }
+    }).then(function (result) {
+      console.log(result);
+      vm.profileData = result.data;
+    }).catch(function (error) {
+      alert('There was a problem getting your profile.  Check the logs for details.');
+      console.log(error);
+    });
+  }
+
+
 }
 
 // // .controller("FeedCtrl", function($scope, $http, $location) {
