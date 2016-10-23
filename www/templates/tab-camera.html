@@ -1,15 +1,15 @@
 <ion-view view-title="Camera">
   <ion-content class="padding">
     <img class="full-image" ng-show="vm.imgURI !== undefined" ng-src="{{vm.imgURI}}">
-    <button class="button button-block button-assertive" ng-click="vm.takePhoto()">
-    Take Photo
+    <button class="button button-block button-positive ion-social-facebook-outline" ng-click="vm.takePhoto()">
+    Share Photo
     </button>
-    <button class="button button-block button-assertive" ng-click="vm.choosePhoto()">
-    Choose Photo
+    <button class="button button-block button-positive ion-social-facebook-outline" ng-click="vm.choosePhoto()">
+    Share Local Photo
     </button>
 
-    <button class="button button-block button-assertive" ng-click="vm.message()">
-    message
+    <button class="button button-block button-positive ion-social-facebook-outline" ng-click="vm.message()">
+    Share Test Message
     </button>
   </ion-content>
 </ion-view>

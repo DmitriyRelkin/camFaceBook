@@ -55,7 +55,7 @@ function CameraCtrl($scope, $cordovaCamera, $http, $window) {
   function message() {
     return $http.post('https://graph.facebook.com/v2.2/me/feed', {
       // params: {
-        message: "ww",
+        message: "Test Message!!",
         access_token: $window.localStorage.getItem('accessToken'),
         // format: 'json'
       // }
@@ -67,12 +67,21 @@ function CameraCtrl($scope, $cordovaCamera, $http, $window) {
 
 angular
 .module('starter.controllers')
-.controller('SocialCtrl', SocialCtrl);
-SocialCtrl.$inject = ['$scope', '$cordovaOauth', '$location', '$window']
-function SocialCtrl($scope, $cordovaOauth, $location, $window) {
+.controller('LoginCtrl', LoginCtrl);
+LoginCtrl.$inject = ['$scope', '$cordovaOauth', '$location', '$window']
+function LoginCtrl($scope, $cordovaOauth, $location, $window) {
 
   var vm = this;
   vm.login = login;
+  vm.init = init;
+
+  function init() {
+    if ($window.localStorage.getItem('accessToken') != null) {
+      $location.path("/tab/profile");
+    } else {
+      $location.path("/login");
+    }
+  };
 
   function login() {
     $cordovaOauth.facebook("321686544890415", [
@@ -83,7 +92,7 @@ function SocialCtrl($scope, $cordovaOauth, $location, $window) {
       "user_about_me",
       "user_relationships"]).then(function(result) {
       $window.localStorage.setItem('accessToken', result.access_token);
-      // $location.path("/tab/profile");
+      $location.path("/tab/profile");
       console.log($window.localStorage.getItem('accessToken'));
     }, function(error) {
       alert("There was a problem signing in!");
@@ -113,50 +122,17 @@ function ProfileCtrl($scope, $location, $window, $http) {
       // console.log(result);
       vm.profileData = result.data;
     }).catch(function (error) {
-      alert('There was a problem getting your profile.  Check the logs for details.');
+      // alert('There was a problem getting your profile.  Check the logs for details.');
       console.log(error);
     });
   }
   function exit() {
     $window.localStorage.clear();
     vm.profileData = {};
-    $location.path("/social");
+    $location.path("/login");
   }
 
 }
-
-// angular
-// .module('starter.controllers')
-// .controller('FeedCtrl', ProfileCtrl);
-// FeedCtrl.$inject = ['$scope', '$location', '$window', '$http']
-// function FeedCtrl($scope, $location, $window, $http) {
-//   var vm = this;
-//
-//     vm.init = function() {
-//         if($window.localStorage.getItem('accessToken') != null) {
-//             $http.get("https://graph.facebook.com/v2.2/me/feed", {
-//               params: {
-//                 access_token: $window.localStorage.getItem('accessToken'),
-//                 format: "json" }}).then(function(result) {
-//                 vm.feedData = result.data.data;
-//                 $http.get("https://graph.facebook.com/v2.2/me", {
-//                   params: {
-//                     access_token: $window.localStorage.getItem('accessToken'),
-//                     fields: "picture", format: "json" }}).then(function(result) {
-//                     vm.feedData.myPicture = result.data.picture.data.url;
-//                 });
-//             }, function(error) {
-//                 alert("There was a problem getting your profile.  Check the logs for details.");
-//                 console.log(error);
-//             });
-//         } else {
-//             alert("Not signed in");
-//             // $location.path("/login");
-//         }
-//     };
-//
-// };
-
 
 // angular
 // .module('starter.controllers')

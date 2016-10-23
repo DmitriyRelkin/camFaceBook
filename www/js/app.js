@@ -27,16 +27,22 @@ angular
 .module('starter')
 .config(config);
 function config($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/tab/camera');
   $stateProvider
-  // setup an abstract state for the tabs directive
-    .state('tab', {
+  /*LoginPage*/
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'LoginCtrl',
+    controllerAs: 'vm'
+  })
+  /*TabsTemplate*/
+  .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html',
     controllerAs: 'vm'
   })
-  // Each tab has its own nav history stack:
+  /*Tab-Camera*/
   .state('tab.camera', {
     url: '/camera',
     views: {
@@ -47,27 +53,16 @@ function config($stateProvider, $urlRouterProvider) {
       }
     }
   })
-
-  .state('tab.social', {
-    url: '/social',
-    views: {
-      'tab-social': {
-        templateUrl: 'templates/tab-social.html',
-        controller: 'SocialCtrl',
-        controllerAs: 'vm'
-      }
-    }
-  })
-
+  /*Tab-Profile*/
   .state('tab.profile', {
     url: '/profile',
     views: {
       'tab-profile': {
-        templateUrl: 'templates/profile.html',
+        templateUrl: 'templates/tab-profile.html',
         controller: 'ProfileCtrl',
         controllerAs: 'vm'
       }
     }
   });
-  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/login');
 };

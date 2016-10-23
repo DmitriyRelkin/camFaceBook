@@ -3,8 +3,6 @@
       <div class="list card" ng-init="vm.init()">
         <div class="item item-avatar">
           <img ng-src="{{vm.profileData.picture.data.url}}">
-          <!-- <img ng-if="$window.localStorage.getItem('accessToken') != null" ng-src="{{vm.profileData.picture.data.url}}">
-          <img ng-if="$window.localStorage.getItem('accessToken') == null" src="img/user.png" style="width: 13%"> -->
           <h2>{{vm.profileData.name}}</h2>
           <p>{{vm.profileData.id}}</p>
         </div>
@@ -21,7 +19,7 @@
           {{vm.profileData.relationship_status}}
         </a>
       </div>
-      <button class="button button-block button-assertive" ng-click="vm.exit()">
+      <button class="button button-block button-positive" ng-click="vm.exit()">
         Sign out
       </button>
     </ion-content>

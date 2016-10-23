@@ -1,6 +1,9 @@
 .social-btn {
   width: 76%!important;
   margin: 0 auto;
+  -webkit-box-shadow: -1px 11px 22px 2px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 11px 22px 2px rgba(0,0,0,0.75);
+  box-shadow: -1px 11px 22px 2px rgba(0,0,0,0.75);
 }
 .ion-social-facebook-outline {
 
@@ -11,5 +14,5 @@
   font-size: 32px;
 }
 .social {
-  background: url(http://wallpoper.com/images/00/38/27/71/cityscapes-town_00382771.jpg) center;
+  background: cornflowerblue;
 }
