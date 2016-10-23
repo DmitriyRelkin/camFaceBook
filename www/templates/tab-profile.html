@@ -4,20 +4,24 @@
         <div class="item item-avatar">
           <img ng-src="{{vm.profileData.picture.data.url}}">
           <h2>{{vm.profileData.name}}</h2>
-          <p>{{vm.profileData.id}}</p>
+          <p>ID: {{vm.profileData.id}}</p>
         </div>
-        <a href="#" class="item item-icon-left">
-          <i class="icon ion-earth"></i>
-          {{vm.profileData.website}}
-        </a>
-        <a href="#" class="item item-icon-left">
-          <i class="icon ion-home"></i>
+        <p class="item">
+          <i class="ion-ios-person-outline"></i>
+          Gender: {{vm.profileData.gender}}
+        </p>
+        <p class="item">
+          <i class="ion-android-pin"></i>
           {{vm.profileData.location.name}}
-        </a>
-        <a href="#" class="item item-icon-left">
-          <i class="icon ion-heart"></i>
-          {{vm.profileData.relationship_status}}
-        </a>
+        </p>
+        <p class="item">
+          <i class=""></i>
+          {{vm.profileData.birthday}}
+        </p>
+        <!-- <p class="item">
+          <i class=""></i>
+          {{vm.profileData.}}
+        </p> -->
       </div>
       <button class="button button-block button-positive" ng-click="vm.exit()">
         Sign out

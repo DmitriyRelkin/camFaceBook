@@ -5,8 +5,11 @@
   -moz-box-shadow: -1px 11px 22px 2px rgba(0,0,0,0.75);
   box-shadow: -1px 11px 22px 2px rgba(0,0,0,0.75);
 }
-.ion-social-facebook-outline {
-
+.wrapper-photo-view {
+  text-align: center;
+}
+.photo-view {
+  height: 60%;;
 }
 .ion-social-facebook-outline:before {
   background: #445c94!important;

@@ -1,6 +1,6 @@
 <ion-view view-title="Camera">
-  <ion-content class="padding">
-    <img class="full-image" ng-show="vm.imgURI !== undefined" ng-src="{{vm.imgURI}}">
+  <ion-content class="padding wrapper-photo-view">
+    <img class="photo-view" ng-show="vm.imgURI !== undefined" ng-src="{{vm.imgURI}}">
     <button class="button button-block button-positive ion-social-facebook-outline" ng-click="vm.takePhoto()">
     Share Photo
     </button>
@@ -11,5 +11,10 @@
     <button class="button button-block button-positive ion-social-facebook-outline" ng-click="vm.message()">
     Share Test Message
     </button>
+
+    <!-- <input type="text" ng-model="title">
+    <input type="text" ng-model="text">
+    <input type="file" file-model="vm.imgURI"/> -->
+    <!-- <button ng-click="vm.send()"> -->
   </ion-content>
 </ion-view>

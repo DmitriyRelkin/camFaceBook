@@ -1,6 +1,8 @@
 angular
 .module('starter', [
   'ionic',
+  // 'starter.directive',
+  // 'starter.service',
   'starter.controllers',
   'ngCordova',
   'ngCordovaOauth'

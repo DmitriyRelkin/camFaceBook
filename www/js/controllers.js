@@ -11,6 +11,21 @@ function CameraCtrl($scope, $cordovaCamera, $http, $window) {
   vm.takePhoto = takePhoto;
   vm.choosePhoto = choosePhoto;
   vm.message = message;
+  // vm.send = send;
+  //
+  //
+  //
+  // vm.title = null;
+  // vm.text = null;
+  //
+  // function send(){
+  //   var file = vm.imgURI;
+  //   var uploadUrl = 'https://graph.facebook.com/v2.8/me/photos';
+  //   // blockUI.start();
+  //   // MyService.uploadFileToUrl(file, vm.newPost.title, vm.newPost.text, uploadUrl);
+  //   MyService.uploadFileToUrl(file, vm.title, vm.text, uploadUrl);
+  //   // .then(successCallback).catch(errorCallback);
+  // };
 
   function takePhoto() {
     var options = {
@@ -27,6 +42,13 @@ function CameraCtrl($scope, $cordovaCamera, $http, $window) {
 
     $cordovaCamera.getPicture(options).then(function (imageData) {
       vm.imgURI = "data:image/jpeg;base64," + imageData;
+      // vm.send();
+      return $http.post('https://graph.facebook.com/v2.8/me/feed', {
+        feed_targeting: vm.imgURI,
+        access_token: $window.localStorage.getItem('accessToken')
+      }).then(function (result) {
+        console.log(result);
+      });
     },function (err) {
         // An error occured. Show a message to the user
     });
@@ -46,19 +68,17 @@ function CameraCtrl($scope, $cordovaCamera, $http, $window) {
     };
 
     $cordovaCamera.getPicture(options).then(function (imageData) {
-        vm.imgURI = "data:image/jpeg;base64," + imageData;
+      vm.imgURI = "data:image/jpeg;base64," + imageData;
+      // vm.send();
     }, function (err) {
-        // An error occured. Show a message to the user
+      // An error occured. Show a message to the user
     });
   };
 
   function message() {
-    return $http.post('https://graph.facebook.com/v2.2/me/feed', {
-      // params: {
-        message: "Test Message!!",
-        access_token: $window.localStorage.getItem('accessToken'),
-        // format: 'json'
-      // }
+    return $http.post('https://graph.facebook.com/v2.8/me/feed', {
+      message: "This is a test message from my application!!))",
+      access_token: $window.localStorage.getItem('accessToken')
     }).then(function (result) {
       console.log(result);
     });
@@ -109,20 +129,20 @@ function ProfileCtrl($scope, $location, $window, $http) {
   var vm = this;
   vm.init = init;
   vm.exit = exit;
-  // vm.profileData = {};
 
   function init() {
-    return $http.get('https://graph.facebook.com/v2.2/me', {
+    return $http.get('https://graph.facebook.com/v2.8/me', {
       params: {
         access_token: $window.localStorage.getItem('accessToken'),
-        fields: 'id,name,gender,location,website,picture,email',
+        fields: 'id,name,gender,location,website,picture,email,birthday,about',
         format: 'json'
       }
     }).then(function (result) {
       // console.log(result);
       vm.profileData = result.data;
+      console.log(vm.profileData);
     }).catch(function (error) {
-      // alert('There was a problem getting your profile.  Check the logs for details.');
+      alert('There was a problem getting your profile.  Check the logs for details.');
       console.log(error);
     });
   }
@@ -133,9 +153,3 @@ function ProfileCtrl($scope, $location, $window, $http) {
   }
 
 }
-
-// angular
-// .module('starter.controllers')
-// .controller('homeCtrl', ProfileCtrl);
-// homeCtrl.$inject = ['$scope', '$location', '$window', '$http']
-// function homeCtrl($scope, $location, $window, $http) {}
