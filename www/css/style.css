@@ -9,9 +9,10 @@
 
 }
 .ion-social-facebook-outline:before {
-  background: blue!important;
-  padding: 12px 15px!important;
+  background: #445c94!important;
+  padding: 4px 15px!important;
   font-size: 32px;
+  margin: 5px 5px 0;
 }
 .social {
   background: cornflowerblue;
