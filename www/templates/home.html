@@ -1,0 +1,6 @@
+<ion-view view-title="Login">
+  <ion-content class="padding">
+    <div ng-if="$window.localStorage.getItem('tasks') != null" class="mainContent" ng-include="'templates/tabs.html'"></div>
+    <div ng-if="$window.localStorage.getItem('tasks') != null" class="mainContent" ng-include="'templates/tab-social.html'"></div>
+  </ion-content>
+</ion-view>

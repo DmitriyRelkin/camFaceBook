@@ -4,12 +4,15 @@ angular
 angular
 .module('starter.controllers')
 .controller('CameraCtrl', CameraCtrl);
-CameraCtrl.$inject = ['$scope', '$cordovaCamera']
-function CameraCtrl($scope, $cordovaCamera) {
+CameraCtrl.$inject = ['$scope', '$cordovaCamera', '$http', '$window']
+function CameraCtrl($scope, $cordovaCamera, $http, $window) {
 
   var vm = this;
+  vm.takePhoto = takePhoto;
+  vm.choosePhoto = choosePhoto;
+  vm.message = message;
 
-  vm.takePhoto = function () {
+  function takePhoto() {
     var options = {
       quality: 100,
       destinationType: Camera.DestinationType.DATA_URL,
@@ -23,13 +26,13 @@ function CameraCtrl($scope, $cordovaCamera) {
     };
 
     $cordovaCamera.getPicture(options).then(function (imageData) {
-        vm.imgURI = "data:image/jpeg;base64," + imageData;
-    }, function (err) {
+      vm.imgURI = "data:image/jpeg;base64," + imageData;
+    },function (err) {
         // An error occured. Show a message to the user
     });
-  }
+  };
 
-  vm.choosePhoto = function () {
+  function choosePhoto() {
     var options = {
       quality: 100,
       destinationType: Camera.DestinationType.DATA_URL,
@@ -47,7 +50,19 @@ function CameraCtrl($scope, $cordovaCamera) {
     }, function (err) {
         // An error occured. Show a message to the user
     });
-  }
+  };
+
+  function message() {
+    return $http.post('https://graph.facebook.com/v2.2/me/feed', {
+      // params: {
+        message: "ww",
+        access_token: $window.localStorage.getItem('accessToken'),
+        // format: 'json'
+      // }
+    }).then(function (result) {
+      console.log(result);
+    });
+  };
 }
 
 angular
@@ -57,16 +72,19 @@ SocialCtrl.$inject = ['$scope', '$cordovaOauth', '$location', '$window']
 function SocialCtrl($scope, $cordovaOauth, $location, $window) {
 
   var vm = this;
+  vm.login = login;
 
-  vm.login = function() {
+  function login() {
     $cordovaOauth.facebook("321686544890415", [
       "email",
       "user_website",
       "user_location",
+      "publish_actions",
+      "user_about_me",
       "user_relationships"]).then(function(result) {
-      $window.localStorage.setItem('accessToken', JSON.stringify(result.access_token));
-      $location.path("/tab/profile");
-      console.log( JSON.parse($window.localStorage.getItem('accessToken')));
+      $window.localStorage.setItem('accessToken', result.access_token);
+      // $location.path("/tab/profile");
+      console.log($window.localStorage.getItem('accessToken'));
     }, function(error) {
       alert("There was a problem signing in!");
       console.log(error);
@@ -80,43 +98,68 @@ angular
 ProfileCtrl.$inject = ['$scope', '$location', '$window', '$http']
 function ProfileCtrl($scope, $location, $window, $http) {
   var vm = this;
+  vm.init = init;
+  vm.exit = exit;
+  // vm.profileData = {};
 
-  vm.init = function() {
+  function init() {
     return $http.get('https://graph.facebook.com/v2.2/me', {
       params: {
-        access_token: JSON.parse($window.localStorage.getItem('accessToken')),
+        access_token: $window.localStorage.getItem('accessToken'),
         fields: 'id,name,gender,location,website,picture,email',
         format: 'json'
       }
     }).then(function (result) {
-      console.log(result);
+      // console.log(result);
       vm.profileData = result.data;
     }).catch(function (error) {
       alert('There was a problem getting your profile.  Check the logs for details.');
       console.log(error);
     });
   }
-
+  function exit() {
+    $window.localStorage.clear();
+    vm.profileData = {};
+    $location.path("/social");
+  }
 
 }
 
-// // .controller("FeedCtrl", function($scope, $http, $location) {
-// //
-// //     $scope.init = function() {
-// //         if(window.localStorage.hasOwnProperty("accessToken") === true) {
-// //             $http.get("https://graph.facebook.com/v2.2/me/feed", { params: { access_token: window.localStorage.accessToken, format: "json" }}).then(function(result) {
-// //                 $scope.feedData = result.data.data;
-// //                 $http.get("https://graph.facebook.com/v2.2/me", { params: { access_token: window.localStorage.accessToken, fields: "picture", format: "json" }}).then(function(result) {
-// //                     $scope.feedData.myPicture = result.data.picture.data.url;
-// //                 });
-// //             }, function(error) {
-// //                 alert("There was a problem getting your profile.  Check the logs for details.");
-// //                 console.log(error);
-// //             });
-// //         } else {
-// //             alert("Not signed in");
-// //             $location.path("/login");
-// //         }
-// //     };
-// //
-// // });
+// angular
+// .module('starter.controllers')
+// .controller('FeedCtrl', ProfileCtrl);
+// FeedCtrl.$inject = ['$scope', '$location', '$window', '$http']
+// function FeedCtrl($scope, $location, $window, $http) {
+//   var vm = this;
+//
+//     vm.init = function() {
+//         if($window.localStorage.getItem('accessToken') != null) {
+//             $http.get("https://graph.facebook.com/v2.2/me/feed", {
+//               params: {
+//                 access_token: $window.localStorage.getItem('accessToken'),
+//                 format: "json" }}).then(function(result) {
+//                 vm.feedData = result.data.data;
+//                 $http.get("https://graph.facebook.com/v2.2/me", {
+//                   params: {
+//                     access_token: $window.localStorage.getItem('accessToken'),
+//                     fields: "picture", format: "json" }}).then(function(result) {
+//                     vm.feedData.myPicture = result.data.picture.data.url;
+//                 });
+//             }, function(error) {
+//                 alert("There was a problem getting your profile.  Check the logs for details.");
+//                 console.log(error);
+//             });
+//         } else {
+//             alert("Not signed in");
+//             // $location.path("/login");
+//         }
+//     };
+//
+// };
+
+
+// angular
+// .module('starter.controllers')
+// .controller('homeCtrl', ProfileCtrl);
+// homeCtrl.$inject = ['$scope', '$location', '$window', '$http']
+// function homeCtrl($scope, $location, $window, $http) {}
